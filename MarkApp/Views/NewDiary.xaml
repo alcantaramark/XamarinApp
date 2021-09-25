@@ -9,16 +9,14 @@
     x:Name="this"
     BackgroundColor = "LightGray">
     <ContentPage.Content>
+        <ScrollView>
         <StackLayout>
-            <Entry Placeholder="Location" Text="{Binding Location}" />
+            <Entry Placeholder="Location" Text="{Binding Location, Mode=TwoWay}" />
             <Label FontSize="Large" Text="Add to Site Diary" Margin="10"/>
             <Frame>
              <StackLayout>
-                <Label FontSize="Medium" Text="Add Photos to Site Diary" Margin="10, 0, 0, 0"/>
-                <BoxView 
-                   HeightRequest="1"
-                   Color="LightGray"
-                   Margin ="5, 0, 5, 0"/>
+                <Label FontSize="Medium" FontAttributes="Bold" Text="Add Photos to Site Diary" Margin="10, 0, 0, 0"/>
+                <BoxView />
                 <CollectionView ItemsLayout="HorizontalList" HeightRequest="100"
                                 ItemsSource="{Binding FilePath}">
                     <CollectionView.ItemTemplate>
@@ -46,20 +44,39 @@
                 <StackLayout>
                     <Button Text="Add a Photo" Command="{Binding SelectPhotos}"/>
                     <CustomImage:CustomCheckboxView Checked="{Binding IncludeInPhotoGallery}" CheckBoxLabel="Include in Photo Gallery" />
-                    <!--<Button Text="Next" Command="{Binding DeletePhoto}"/>-->
                 </StackLayout>
             </StackLayout>
             </Frame>
             <Frame>
                 <StackLayout>
-                    <Label FontSize="Medium" Text="Comments" Margin="10, 0, 0, 0"/>
-                    <BoxView 
-                        HeightRequest="1"
-                        Color="LightGray"
-                        Margin ="5, 0, 5, 0"/>
-                    <toolkit:EntryLine BindingContext="{Binding Comments}"/>
+                    <Label FontSize="Medium" FontAttributes="Bold" Text="Comments" Margin="10, 0, 0, 0"/>
+                    <BoxView />
+                    <toolkit:EntryLine BindingContext="{Binding Comments, Mode=TwoWay}"/>
                 </StackLayout>
             </Frame>
+            <Frame>
+                <StackLayout>
+                    <Label FontSize="Medium" FontAttributes="Bold" Text="Details" Margin="10, 0, 0, 0"/>
+                    <BoxView />
+                    <DatePicker BindingContext="{Binding DateTaken}"/>
+                    <Picker ItemsSource="{Binding Areas}" Title="Select Area" SelectedItem="{Binding SelectedArea, Mode=TwoWay}"/>
+                    <Picker ItemsSource="{Binding TaskCategories}" Title="Task Category" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"/>
+                    <toolkit:EntryLine Placeholder="Tags" BindingContext="Binding Tags"/>
+                </StackLayout>
+            </Frame>
+            <Frame>
+                <StackLayout>
+                    <CustomImage:CustomCheckboxView Checked="{Binding LinkToExistingEvent, Mode=TwoWay}"
+                                                    CheckBoxLabel="Link to Existing Event"
+                                                    CheckBoxLabelFontSize="15"
+                                                    CheckBoxLabelFontAttribute="Bold" />
+                    <BoxView />
+                    <Picker  ItemsSource="{Binding Events}" Title="Select Events" IsEnabled="{Binding LinkToExistingEvent, Mode=TwoWay}"
+                             SelectedItem="SelectedEvent, Mode=TwoWay" />
+                </StackLayout>
+            </Frame>
+            <Button Text="Next" Command="{Binding PrepareForPosting}" Margin="5, 5, 5, 5"/>
         </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

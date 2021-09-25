@@ -6,6 +6,8 @@
     x:Name="this">
     <StackLayout Orientation="Horizontal">
         <Label BindingContext="{x:Reference this}" Text="{Binding CheckBoxLabel}"
+               FontSize="{Binding CheckBoxLabelFontSize}"
+               FontAttributes="{Binding CheckBoxLabelFontAttribute}"
                VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center"
                WidthRequest="150"/>
         <CheckBox BindingContext="{x:Reference this}" IsChecked="{Binding Checked}"

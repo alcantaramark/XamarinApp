@@ -4,7 +4,9 @@ using MarkApp.Interfaces;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using MarkApp.DataObjects;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MarkApp.ViewModels
 {
@@ -26,13 +28,40 @@ namespace MarkApp.ViewModels
         private List<string> _events;
         private string[] _base64ImageString;
         private ObservableCollection<string> _filePath = new ObservableCollection<string>();
+        private bool _linkToExistingEvent = true;
+        private string _selectedArea;
+        private string _selectedTaskCategory;
+        private string _selectedEvent;
         //Commands
-        private ICommand postData;
         private ICommand selectPhotos;
         private ICommand deletePhoto;
+        private ICommand prepareForPosting;
         #endregion
 
         #region Models
+        public string SelectedArea
+        {
+            get { return _selectedArea; }
+            set { SetProperty(ref _selectedArea, value); }
+        }
+
+        public string SelectedTaskCategory
+        {
+            get { return _selectedTaskCategory; }
+            set { SetProperty(ref _selectedTaskCategory, value); }
+        }
+
+        public string SelectedEvent
+        {
+            get { return _selectedEvent; }
+            set { SetProperty(ref _selectedEvent, value); }
+        }
+
+        public bool LinkToExistingEvent
+        {
+            get { return _linkToExistingEvent; }
+            set { SetProperty(ref _linkToExistingEvent, value); }
+        }
         public ObservableCollection<string> FilePath
         {
             get { return _filePath; }
@@ -67,7 +96,7 @@ namespace MarkApp.ViewModels
         {
             get
             {
-                _areas = new List<string> { "Entrance", "Exit", "Basement", "Rooftop" };
+                _areas = new List<string> {"Entrance", "Exit", "Basement", "Rooftop" };
                 return _areas;
             }
             private set { }
@@ -107,23 +136,42 @@ namespace MarkApp.ViewModels
         #endregion
 
         #region Commands
-        public ICommand PostData => postData ?? (postData = new Command(async () => await ExecutePostDataAsync()));
         public ICommand SelectPhotos => selectPhotos ?? (selectPhotos = new Command(async () => await ExecuteSelectPhotosAsync()));
         public ICommand DeletePhoto => deletePhoto ?? (deletePhoto = new Command<string>((path) => ExecuteDeletePhoto(path)));
+        public ICommand PrepareForPosting => prepareForPosting ?? (prepareForPosting = new Command(async () => await ExecutePrepareForPosting()));
         #endregion
 
         #region Constructors
         public NewDiaryViewModel(IPermissionService permissionService
             , IDialogService dialogService
             , INavigationService navigationService
-            , IPhotoService photoService) : base(
-                permissionService, dialogService, navigationService, photoService)
+            , IPhotoService photoService
+            , IFileService fileService) : base(
+                permissionService, dialogService, navigationService, photoService, fileService)
         {
             
         }
         #endregion
 
         #region CommandExecutions
+        private async Task ExecutePrepareForPosting()
+        {
+            Console.Write("dito lang ako");
+            Diary diary = new Diary
+            {
+                Area = _selectedArea ?? _selectedArea,
+                Comments = _comments ?? _comments,
+                DateTaken = _dateTaken,
+                Event = _selectedEvent ?? _selectedEvent,
+                IncludeInPhotoGallery = _includeInPhotoGallery,
+                Location = _location,
+                Tags = _tags.Split(new char[0], StringSplitOptions.RemoveEmptyEntries),
+                TaskCategory = _selectedTaskCategory ?? _selectedTaskCategory,
+                Base64ImageString = _fileService.ConvertToBase64String(_filePath.ToList())
+            };
+            await _navigationService.NavigateToAsync<PostDataViewModel>(diary);
+        }
+
         private void ExecuteDeletePhoto(string path)
         {
             if (_filePath.Contains(path))
@@ -144,11 +192,7 @@ namespace MarkApp.ViewModels
             
         }
 
-        private async Task ExecutePostDataAsync()
-        {
-            
-            await Task.FromResult(false);
-        }
+        
         #endregion
     }
 }

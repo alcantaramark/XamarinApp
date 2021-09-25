@@ -7,7 +7,7 @@ namespace MarkApp.Interfaces
     public interface INavigationService
     {
         #region Methods
-        Task NavigateToAsync<TViewModel>() where TViewModel: ViewModelBase;
+        Task NavigateToAsync<TViewModel>(object parameter = null) where TViewModel: ViewModelBase;
         #endregion
     }
 }

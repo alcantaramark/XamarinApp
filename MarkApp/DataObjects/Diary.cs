@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace MarkApp.DataObjects
 {
     public class Diary
@@ -19,7 +21,7 @@ namespace MarkApp.DataObjects
         public string TaskCategory { get; set; }
         public string[] Tags { get; set; }
         public string Event { get; set; }
-        public string[] Base64ImageString { get; set; }
+        public List<string> Base64ImageString { get; set; }
         #endregion
     }
 }

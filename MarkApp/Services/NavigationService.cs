@@ -30,14 +30,11 @@ namespace MarkApp.Services
 
         #region Implementations
         
-        public async Task NavigateToAsync<TViewModel>() where TViewModel : ViewModelBase
+        public async Task NavigateToAsync<TViewModel>(object parameters = null) where TViewModel : ViewModelBase
         {
-            Page page = CreateandBindPage(typeof(TViewModel), null);
+            Page page = CreateandBindPage(typeof(TViewModel), parameters);
 
             var navigationPage = CurrentApplication.MainPage as NavigationPage;
-            //navigationPage.BarBackgroundColor = Color.Black;
-            
-
             if (navigationPage != null)
                 await navigationPage.PushAsync(page);
             else
@@ -51,6 +48,7 @@ namespace MarkApp.Services
         private void CreatePageViewModelMappings()
         {
             _mappings.Add(typeof(NewDiaryViewModel), typeof(NewDiary));
+            _mappings.Add(typeof(PostDataViewModel), typeof(PostData));
         }
         #endregion
 
@@ -64,11 +62,15 @@ namespace MarkApp.Services
                 throw new Exception($"Mapping type for ${viewModelType} is not found");
 
             Page page = Activator.CreateInstance(pageType) as Page;
+            page.SetNavigationArgs(parameter);
             ViewModelBase viewModel = AppContainer.Resolve(viewModelType) as ViewModelBase;
             page.BindingContext = viewModel;
 
             return page;
         }
+
+        
+        
 
         protected Type GetPageTypeForViewModel(Type viewModelType)
         {

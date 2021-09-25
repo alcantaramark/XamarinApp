@@ -27,12 +27,13 @@ namespace MarkApp.Helpers
 
             //View Models
             builder.RegisterType<NewDiaryViewModel>();
-
+            builder.RegisterType<PostDataViewModel>();
             //Services
             builder.RegisterType<NavigationService>().As<INavigationService>();
             builder.RegisterType<PermissionService>().As<IPermissionService>();
             builder.RegisterType<DialogService>().As<IDialogService>();
             builder.RegisterType<PhotoService>().As<IPhotoService>();
+            builder.RegisterType<FileService>().As<IFileService>();
             _container = builder.Build();
         }
 
