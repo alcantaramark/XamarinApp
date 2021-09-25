@@ -14,6 +14,7 @@ namespace MarkApp.ViewModels
         protected readonly IDialogService _dialogService;
         protected readonly IPhotoService _photoService;
         protected readonly IFileService _fileService;
+        protected readonly IApiService _apiService;
         #endregion
 
         #region Constructor
@@ -21,13 +22,15 @@ namespace MarkApp.ViewModels
             , IDialogService dialogService
             , INavigationService navigationService
             , IPhotoService photoService
-            , IFileService fileService)
+            , IFileService fileService
+            , IApiService apiService)
         {
             _permissionService = permissionService;
             _dialogService = dialogService;
             _navigationService = navigationService;
             _photoService = photoService;
             _fileService = fileService;
+            _apiService = apiService;
         }
 
         public ViewModelBase()

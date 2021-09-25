@@ -14,13 +14,16 @@ namespace MarkApp.Services
         #endregion
 
         #region Implementation
-        public List<string> ConvertToBase64String(List<string> imagePath)
+        
+
+        List<string> IFileService.ConvertToBase64Encoding(List<string> imagePath)
         {
             List<string> listBase64 = new List<string>();
-            foreach(string image in imagePath)
+            foreach (string image in imagePath)
             {
-                byte[] imageArray = File.ReadAllBytes(image);
-                listBase64.Add(Convert.ToBase64String(imageArray));
+                byte[] bytes = File.ReadAllBytes(image);
+                listBase64.Add(Convert.ToBase64String(bytes));
+                
             }
             return listBase64;
         }

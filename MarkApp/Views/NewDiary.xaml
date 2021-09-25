@@ -51,17 +51,17 @@
                 <StackLayout>
                     <Label FontSize="Medium" FontAttributes="Bold" Text="Comments" Margin="10, 0, 0, 0"/>
                     <BoxView />
-                    <toolkit:EntryLine BindingContext="{Binding Comments, Mode=TwoWay}"/>
+                    <toolkit:EntryLine Text="{Binding Comments, Mode=TwoWay}"/>
                 </StackLayout>
             </Frame>
             <Frame>
                 <StackLayout>
                     <Label FontSize="Medium" FontAttributes="Bold" Text="Details" Margin="10, 0, 0, 0"/>
                     <BoxView />
-                    <DatePicker BindingContext="{Binding DateTaken}"/>
+                    <DatePicker Date="{Binding DateTaken, Mode=TwoWay}"/>
                     <Picker ItemsSource="{Binding Areas}" Title="Select Area" SelectedItem="{Binding SelectedArea, Mode=TwoWay}"/>
-                    <Picker ItemsSource="{Binding TaskCategories}" Title="Task Category" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"/>
-                    <toolkit:EntryLine Placeholder="Tags" BindingContext="Binding Tags"/>
+                    <Picker ItemsSource="{Binding TaskCategories}" Title="Task Category" SelectedItem="{Binding SelectedTaskCategory, Mode=TwoWay}"/>
+                    <toolkit:EntryLine Placeholder="Tags" Text="{Binding Tags, Mode=TwoWay}"/>
                 </StackLayout>
             </Frame>
             <Frame>
@@ -72,7 +72,7 @@
                                                     CheckBoxLabelFontAttribute="Bold" />
                     <BoxView />
                     <Picker  ItemsSource="{Binding Events}" Title="Select Events" IsEnabled="{Binding LinkToExistingEvent, Mode=TwoWay}"
-                             SelectedItem="SelectedEvent, Mode=TwoWay" />
+                             SelectedItem="{Binding SelectedEvent, Mode=TwoWay}" />
                 </StackLayout>
             </Frame>
             <Button Text="Next" Command="{Binding PrepareForPosting}" Margin="5, 5, 5, 5"/>

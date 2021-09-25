@@ -24,8 +24,8 @@ namespace MarkApp.Services
             {
                 var MediaOptions = new PickMediaOptions
                 {
-                    PhotoSize = PhotoSize.Large,
-                    CompressionQuality = 100 
+                    PhotoSize = PhotoSize.Small,
+                    CompressionQuality = 30 
                 };
 
                 var images = await CrossMedia.Current.PickPhotosAsync(MediaOptions);

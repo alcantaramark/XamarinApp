@@ -21,7 +21,7 @@ namespace MarkApp.ViewModels
         private string _location;
         private string _comments;
         private bool _includeInPhotoGallery;
-        private DateTime _dateTaken;
+        private DateTime _dateTaken = DateTime.Today;
         private List<string> _areas;
         private List<string> _taskCategories;
         private string _tags;
@@ -146,8 +146,9 @@ namespace MarkApp.ViewModels
             , IDialogService dialogService
             , INavigationService navigationService
             , IPhotoService photoService
-            , IFileService fileService) : base(
-                permissionService, dialogService, navigationService, photoService, fileService)
+            , IFileService fileService
+            , IApiService apiService) : base(
+                permissionService, dialogService, navigationService, photoService, fileService, apiService)
         {
             
         }
@@ -156,38 +157,58 @@ namespace MarkApp.ViewModels
         #region CommandExecutions
         private async Task ExecutePrepareForPosting()
         {
-            Console.Write("dito lang ako");
-            Diary diary = new Diary
+            try
             {
-                Area = _selectedArea ?? _selectedArea,
-                Comments = _comments ?? _comments,
-                DateTaken = _dateTaken,
-                Event = _selectedEvent ?? _selectedEvent,
-                IncludeInPhotoGallery = _includeInPhotoGallery,
-                Location = _location,
-                Tags = _tags.Split(new char[0], StringSplitOptions.RemoveEmptyEntries),
-                TaskCategory = _selectedTaskCategory ?? _selectedTaskCategory,
-                Base64ImageString = _fileService.ConvertToBase64String(_filePath.ToList())
-            };
-            await _navigationService.NavigateToAsync<PostDataViewModel>(diary);
+                Diary diary = new Diary
+                {
+                    Area = _selectedArea ?? string.Empty,
+                    Comments = _comments ?? string.Empty,
+                    DateTaken = _dateTaken,
+                    Event = _selectedEvent ?? string.Empty,
+                    IncludeInPhotoGallery = _includeInPhotoGallery,
+                    Location = _location ?? string.Empty,
+                    Tags = (_tags != null) ? _tags.Split(new char[0], StringSplitOptions.RemoveEmptyEntries) : new string[] { },
+                    TaskCategory = _selectedTaskCategory ?? string.Empty,
+                    Base64Image = _fileService.ConvertToBase64Encoding(_filePath.ToList())
+                };
+                await _navigationService.NavigateToAsync<PostDataViewModel>(diary);
+            }
+            catch(Exception ex)
+            {
+                await _dialogService.ShowDialog("There was an error processing your request", "Error", "ok");
+            }
         }
 
         private void ExecuteDeletePhoto(string path)
         {
-            if (_filePath.Contains(path))
-                _filePath.Remove(path);
+            try
+            {
+                if (_filePath.Contains(path))
+                    _filePath.Remove(path);
+            }
+            catch(Exception ex)
+            {
+                Task.Run(async () => await _dialogService.ShowDialog("There was an error processing your request", "Error", "ok")); 
+            }
         }
 
         private async Task ExecuteSelectPhotosAsync()
         {
-            var medias = await _photoService.SelectPhotoAsync();
-            if (medias != null)
+            try
             {
-                foreach (string media in medias)
+                var medias = await _photoService.SelectPhotoAsync();
+                if (medias != null)
                 {
-                    if (!_filePath.Contains(media))
-                        _filePath.Add(media);
+                    foreach (string media in medias)
+                    {
+                        if (!_filePath.Contains(media))
+                            _filePath.Add(media);
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                await _dialogService.ShowDialog("There was an error processing your request", "Error", "ok");
             }
             
         }

@@ -34,6 +34,7 @@ namespace MarkApp.Helpers
             builder.RegisterType<DialogService>().As<IDialogService>();
             builder.RegisterType<PhotoService>().As<IPhotoService>();
             builder.RegisterType<FileService>().As<IFileService>();
+            builder.RegisterType<ApiService>().As<IApiService>();
             _container = builder.Build();
         }
 

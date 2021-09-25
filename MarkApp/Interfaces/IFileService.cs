@@ -6,7 +6,7 @@ namespace MarkApp.Interfaces
     public interface IFileService
     {
         #region Methods
-        List<string> ConvertToBase64String(List<string> imagePath);
+        List<string> ConvertToBase64Encoding(List<string> imagePath);
         #endregion
     }
 }

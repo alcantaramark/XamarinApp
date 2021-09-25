@@ -13,6 +13,7 @@ namespace MarkApp.Views
         public PostData()
         {
             InitializeComponent();
+            
         }
         #endregion
 
@@ -23,6 +24,7 @@ namespace MarkApp.Views
             var vm = BindingContext as PostDataViewModel;
             vm.diary = args as Diary;
 
+            vm.PostData.Execute(null);
             base.OnAppearing();
         }
         #endregion
