@@ -10,12 +10,21 @@ namespace MarkApp.ViewModels
     {
         #region Protected Members
         protected readonly INavigationService _navigationService;
+        protected readonly IPermissionService _permissionService;
+        protected readonly IDialogService _dialogService;
+        protected readonly IPhotoService _photoService;
         #endregion
 
         #region Constructor
-        public ViewModelBase(INavigationService navigationService)
+        public ViewModelBase(IPermissionService permissionService
+            , IDialogService dialogService
+            , INavigationService navigationService
+            , IPhotoService photoService)
         {
+            _permissionService = permissionService;
+            _dialogService = dialogService;
             _navigationService = navigationService;
+            _photoService = photoService;
         }
 
         public ViewModelBase()

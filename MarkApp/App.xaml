@@ -8,6 +8,12 @@
                 <Setter Property="BarBackground" Value="Black"/>
                 <Setter Property="BarTextColor" Value="White" />
             </Style>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="YellowGreen" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="WidthRequest" Value="350" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

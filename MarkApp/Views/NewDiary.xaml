@@ -6,9 +6,26 @@
     Title="New Diary">
     <ContentPage.Content>
         <StackLayout>
+            <Entry Placeholder="Location" Text="{Binding Location}" />
+            <CollectionView ItemsLayout="HorizontalList" HeightRequest="100">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="140" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Add a Photo" Command="{Binding SelectPhotos}"/>
             <Label Text="Include in Photo Gallery"/>
             <CheckBox IsChecked="{Binding IncludeInPhotoGallery}" />
-            <toolkit:EntryLine Placeholder="Text" Text="{Binding Location}" />
             <Button Text="Next" Command="{Binding PostData}"/>
         </StackLayout>
     </ContentPage.Content>

@@ -30,7 +30,9 @@ namespace MarkApp.Helpers
 
             //Services
             builder.RegisterType<NavigationService>().As<INavigationService>();
-
+            builder.RegisterType<PermissionService>().As<IPermissionService>();
+            builder.RegisterType<DialogService>().As<IDialogService>();
+            builder.RegisterType<PhotoService>().As<IPhotoService>();
             _container = builder.Build();
         }
 

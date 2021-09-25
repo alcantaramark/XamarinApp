@@ -16,6 +16,8 @@
     <PackageReference Include="Autofac" Version="6.2.0" />
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="FormsToolkit" Version="2.0.1" />
+    <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
+    <PackageReference Include="Acr.UserDialogs" Version="7.1.0.514" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\" />
@@ -28,6 +30,8 @@
     <None Remove="MVVMHelpers" />
     <None Remove="Refractored.MvvmHelpers" />
     <None Remove="FormsToolkit" />
+    <None Remove="Xam.Plugin.Media" />
+    <None Remove="Acr.UserDialogs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

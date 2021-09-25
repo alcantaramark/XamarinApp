@@ -4,11 +4,16 @@ using MarkApp.Interfaces;
 using Xamarin.Forms;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace MarkApp.ViewModels
 {
     public class NewDiaryViewModel : ViewModelBase
     {
+        #region Protected Members
+        
+        #endregion
+
         #region Private Members
         //Properties
         private string _location;
@@ -20,9 +25,10 @@ namespace MarkApp.ViewModels
         private string _tags;
         private List<string> _events;
         private string[] _base64ImageString;
-
+        private ObservableCollection<string> _temp;
         //Commands
         private ICommand postData;
+        private ICommand selectPhotos;
         #endregion
 
         #region Models
@@ -95,20 +101,29 @@ namespace MarkApp.ViewModels
 
         #region Commands
         public ICommand PostData => postData ?? (postData = new Command(async () => await ExecutePostDataAsync()));
+        public ICommand SelectPhotos => selectPhotos ?? (selectPhotos = new Command(async () => await ExecuteSelectPhotosAsync()));
         #endregion
 
-        #region Constructor
-        public NewDiaryViewModel() : base()
+        #region Constructors
+        public NewDiaryViewModel(IPermissionService permissionService
+            , IDialogService dialogService
+            , INavigationService navigationService
+            , IPhotoService photoService) : base(
+                permissionService, dialogService, navigationService, photoService)
         {
-            
             
         }
         #endregion
 
         #region CommandExecutions
+        private async Task ExecuteSelectPhotosAsync()
+        {
+            var images = await _photoService.SelectPhotoAsync();
+        }
+
         private async Task ExecutePostDataAsync()
         {
-            Console.WriteLine($"Naka Check ba? {IncludeInPhotoGallery}");
+            
             await Task.FromResult(false);
         }
         #endregion
