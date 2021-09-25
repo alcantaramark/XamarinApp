@@ -36,7 +36,6 @@ namespace MarkApp.Services
                 {
                     var response = await httpClient.PostAsync(new Uri(ApiUrl) + "api/Diary", httpContent);
                     IsSuccess = response.IsSuccessStatusCode;
-                    
                 }
             }
             catch(Exception ex)
