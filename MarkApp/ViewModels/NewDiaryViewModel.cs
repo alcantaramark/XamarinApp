@@ -25,13 +25,20 @@ namespace MarkApp.ViewModels
         private string _tags;
         private List<string> _events;
         private string[] _base64ImageString;
-        private ObservableCollection<string> _temp;
+        private ObservableCollection<string> _filePath = new ObservableCollection<string>();
         //Commands
         private ICommand postData;
         private ICommand selectPhotos;
+        private ICommand deletePhoto;
         #endregion
 
         #region Models
+        public ObservableCollection<string> FilePath
+        {
+            get { return _filePath; }
+            set { SetProperty(ref _filePath, value); }
+        }
+
         public string Location
         {
             get { return _location; }
@@ -102,6 +109,7 @@ namespace MarkApp.ViewModels
         #region Commands
         public ICommand PostData => postData ?? (postData = new Command(async () => await ExecutePostDataAsync()));
         public ICommand SelectPhotos => selectPhotos ?? (selectPhotos = new Command(async () => await ExecuteSelectPhotosAsync()));
+        public ICommand DeletePhoto => deletePhoto ?? (deletePhoto = new Command<string>((path) => ExecuteDeletePhoto(path)));
         #endregion
 
         #region Constructors
@@ -116,9 +124,24 @@ namespace MarkApp.ViewModels
         #endregion
 
         #region CommandExecutions
+        private void ExecuteDeletePhoto(string path)
+        {
+            if (_filePath.Contains(path))
+                _filePath.Remove(path);
+        }
+
         private async Task ExecuteSelectPhotosAsync()
         {
-            var images = await _photoService.SelectPhotoAsync();
+            var medias = await _photoService.SelectPhotoAsync();
+            if (medias != null)
+            {
+                foreach (string media in medias)
+                {
+                    if (!_filePath.Contains(media))
+                        _filePath.Add(media);
+                }
+            }
+            
         }
 
         private async Task ExecutePostDataAsync()

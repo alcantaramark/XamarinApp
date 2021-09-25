@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Plugin.Media.Abstractions;
 using Plugin.Media;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MarkApp.Services
 {
@@ -17,18 +18,21 @@ namespace MarkApp.Services
         #endregion
 
         #region Implementations
-        public async Task<List<MediaFile>> SelectPhotoAsync(PickMediaOptions options = null)
+        public async Task<List<string>> SelectPhotoAsync(PickMediaOptions options = null)
         {
             try
             {
                 var MediaOptions = new PickMediaOptions
                 {
-                    PhotoSize = PhotoSize.Small,
-                    CompressionQuality = 50 
+                    PhotoSize = PhotoSize.Large,
+                    CompressionQuality = 100 
                 };
 
                 var images = await CrossMedia.Current.PickPhotosAsync(MediaOptions);
-                return images;
+                if (images != null)
+                    return images.Select(x => x.Path).ToList();
+                else
+                    return null;
             }
             catch(Exception ex)
             {

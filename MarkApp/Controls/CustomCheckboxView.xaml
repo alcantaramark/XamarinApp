@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MarkApp.Controls.CustomCheckboxView"
+    x:Name="this">
+    <StackLayout Orientation="Horizontal">
+        <Label BindingContext="{x:Reference this}" Text="{Binding CheckBoxLabel}"
+               VerticalOptions="Center" HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Center"
+               WidthRequest="150"/>
+        <CheckBox BindingContext="{x:Reference this}" IsChecked="{Binding Checked}"
+              HorizontalOptions="End" VerticalOptions="Center" WidthRequest="30"/>
+    </StackLayout>
+
+</ContentView>

@@ -8,7 +8,7 @@ namespace MarkApp.Interfaces
     public interface IPhotoService
     {
         #region Methods
-        Task<List<MediaFile>> SelectPhotoAsync(PickMediaOptions options = null);
+        Task<List<string>> SelectPhotoAsync(PickMediaOptions options = null);
         #endregion
     }
 }
